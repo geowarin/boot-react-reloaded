@@ -4,16 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel watch src/index.tsx",
+    "start": "parcel src/index.html",
     "check-dependencies": "check-dependencies",
-    "build": "parcel build src/index.tsx"
+    "build": "parcel build src/index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "swr": "^0.1.15",
+    "wouter": "^2.4.0",
+    "wretch": "^1.6.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.16",

@@ -1,16 +1,16 @@
 import * as React from "react";
-import {Component, ElementType} from "react";
 import {render} from "react-dom";
+import {Route} from "wouter";
+import Toto from "./pages/toto";
 
-declare var currentPage: string;
+const App = () => (
+  <>
+    <Route path="/">
+      <Toto/>
+    </Route>
+  </>
+);
 
-const pages: { [key: string]: Promise<{ default: ElementType }> } = {
-  "pages/toto.tsx": import("./pages/toto")
-};
+const rootElement = document.getElementById("root");
+render(<App/>, rootElement);
 
-let page = pages[currentPage] || Promise.reject(`Could not find ${currentPage}`);
-page.then(module => {
-  let Component = module.default;
-  const rootElement = document.getElementById("root");
-  render(<Component/>, rootElement);
-});
