@@ -14,6 +14,7 @@
   "dependencies": {
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-use": "^13.12.2",
     "swr": "^0.1.15",
     "wouter": "^2.4.0",
     "wretch": "^1.6.0"

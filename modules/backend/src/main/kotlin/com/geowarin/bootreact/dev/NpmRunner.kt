@@ -1,4 +1,4 @@
-package com.geowarin.bootreact
+package com.geowarin.bootreact.dev
 
 import org.slf4j.LoggerFactory
 import org.zeroturnaround.exec.ProcessExecutor

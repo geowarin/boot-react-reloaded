@@ -22,7 +22,7 @@ const fetcher = (url: string) => api.url(url)
   .json();
 
 const Toto = () => {
-  const {data, error} = useSWR('/toto', fetcher, {revalidateOnFocus: false, onErrorRetry: () => {}});
+  const {data, error} = useSWR('/whatever', fetcher, {revalidateOnFocus: false, onErrorRetry: () => {}});
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;

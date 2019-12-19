@@ -34,7 +34,7 @@ const toto = async () => {
   console.log("token", token);
 
   const result = await api
-    .url("/toto").get()
+    .url("/whatever").get()
     .text();
 
   console.log("result", result);
