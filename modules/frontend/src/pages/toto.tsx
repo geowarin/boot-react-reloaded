@@ -2,7 +2,10 @@ import * as React from "react";
 import useSWR from "swr";
 import wretch from "wretch";
 
-const fetcher = (url: string) => wretch(url).get().json();
+const fetcher = (url: string) => wretch(url)
+  .auth("Basic YWRtaW46YWRtaW4=")
+  .get()
+  .json();
 
 const Toto = () => {
   const { data, error } = useSWR('http://localhost:8080/api/toto', fetcher);
