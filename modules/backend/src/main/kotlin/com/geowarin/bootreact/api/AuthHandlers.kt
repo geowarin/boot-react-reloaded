@@ -22,17 +22,21 @@ data class Credentials(
 class SessionCreator(
   val securityContextRepository: ServerSecurityContextRepository
 ) {
-  fun saveAuthentication(serverRequest: ServerRequest, authentication: Authentication) {
+  fun saveAuthentication(serverRequest: ServerRequest, authentication: Authentication): Mono<Void> {
     val context = SecurityContextHolder.getContext()
     context.authentication = authentication
-    securityContextRepository.save(serverRequest.exchange(), context)
+    return securityContextRepository.save(serverRequest.exchange(), context)
+  }
+
+  fun logout(serverRequest: ServerRequest): Mono<Void> {
+    return securityContextRepository.save(serverRequest.exchange(), null)
   }
 }
 
 @Component
 class AuthHandlers(
   val authenticationManager: ReactiveAuthenticationManager,
-  val securityContextRepository: ServerSecurityContextRepository
+  val sessionCreator: SessionCreator
 ) {
   fun auth(serverRequest: ServerRequest): Mono<ServerResponse> {
     return serverRequest.bodyToMono<Credentials>()
@@ -43,26 +47,13 @@ class AuthHandlers(
           .map { it.save() }
           .`as` { auth }
       }
-      .flatMap { authentication ->
-        saveAuthentication(serverRequest, authentication)
-      }
+      .flatMap { sessionCreator.saveAuthentication(serverRequest, it) }
       .flatMap { ok().bodyValue("Auth success") }
-      .onErrorResume {
-        unauthorized().bodyValue(it.message ?: "Unauthorized")
-      }
-  }
-
-  private fun saveAuthentication(
-    serverRequest: ServerRequest,
-    authentication: Authentication
-  ): Mono<Void> {
-    val context = SecurityContextHolder.getContext()
-    context.authentication = authentication
-    return securityContextRepository.save(serverRequest.exchange(), context)
+      .onErrorResume { unauthorized().bodyValue(it.message ?: "Unauthorized") }
   }
 
   fun logout(serverRequest: ServerRequest): Mono<ServerResponse> {
-    return securityContextRepository.save(serverRequest.exchange(), null)
+    return sessionCreator.logout(serverRequest)
       .flatMap { ok().bodyValue("ok") }
   }
 }
