@@ -1,5 +1,6 @@
 package com.geowarin.bootreact.api
 
+import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -40,5 +41,8 @@ class AuthHandlers(
         securityContextRepository.save(serverRequest.exchange(), context)
       }
       .flatMap { ServerResponse.ok().bodyValue("Auth success") }
+      .onErrorResume {
+        ServerResponse.status(HttpStatus.UNAUTHORIZED).bodyValue(it.message ?: "Unauthorized")
+      }
   }
 }
