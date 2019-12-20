@@ -28,9 +28,7 @@ class SecurityConfig {
       // Disable HttpBasicServerAuthenticationEntryPoint which appends the WWW-Authenticate header
       .exceptionHandling()
       .authenticationEntryPoint(
-        HttpStatusServerEntryPoint(
-          HttpStatus.UNAUTHORIZED
-        )
+        HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)
       ).and()
       // use web sessions to store/ retrieve auth
       .securityContextRepository(securityContextRepository())

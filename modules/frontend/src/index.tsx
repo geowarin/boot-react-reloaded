@@ -1,43 +1,20 @@
-// import * as React from "react";
-// import {render} from "react-dom";
-// import {Route} from "wouter";
-// import Toto from "./pages/toto";
-// import Test from "./pages/test";
-//
-// const App = () => (
-//   <>
-//     <Route path="/">
-//       <Toto/>
-//     </Route>
-//     <Route path="/test">
-//       <Test/>
-//     </Route>
-//   </>
-// );
-//
-// const rootElement = document.getElementById("root");
-// render(<App/>, rootElement);
-//
+import * as React from "react";
+import {render} from "react-dom";
+import {Route} from "wouter";
+import MainPage from "./pages/MainPage";
+import LoginForm from "./pages/LoginForm";
 
-import wretch from "wretch";
+const App = () => (
+  <>
+    <Route path="/">
+      <MainPage/>
+    </Route>
+    <Route path="/login">
+      <LoginForm/>
+    </Route>
+  </>
+);
 
-const api = wretch()
-  .url("http://localhost:8080/api")
-  .options({credentials: "include"});
+const rootElement = document.getElementById("root");
+render(<App/>, rootElement);
 
-const toto = async () => {
-
-  const token = await api
-    .url("/auth").post({userName: "admin", password: "admin"})
-    .text();
-
-  console.log("token", token);
-
-  const result = await api
-    .url("/whatever").get()
-    .text();
-
-  console.log("result", result);
-};
-
-toto();

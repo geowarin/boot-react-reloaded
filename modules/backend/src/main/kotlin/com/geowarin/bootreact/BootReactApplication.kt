@@ -19,8 +19,3 @@ fun main(args: Array<String>) {
 
 private fun isRestart() = Thread.currentThread().name == "restartedMain"
 
-data class Credentials(
-  val userName: String,
-  val password: String
-)
-

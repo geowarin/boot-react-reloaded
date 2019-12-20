@@ -1,6 +1,5 @@
 package com.geowarin.bootreact.api
 
-import com.geowarin.bootreact.Credentials
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -10,6 +9,11 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
+
+data class Credentials(
+  val userName: String,
+  val password: String
+)
 
 @Component
 class AuthHandlers(
