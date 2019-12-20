@@ -15,6 +15,7 @@ class Router(
   fun routes() = router {
     path("/api").nest {
       POST("/auth", authHandlers::auth)
+      DELETE("/auth", authHandlers::logout)
       GET("/whatever", apiHandlers::whatever)
     }
   }

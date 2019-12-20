@@ -20,7 +20,7 @@ const LoginForm: React.FC<Props> = (props) => {
   const [location, setLocation] = useLocation();
 
   const onSubmit = handleSubmit(({userName, password}) => {
-    api.url("/auth")
+    api.url("/api/auth")
       .post({userName, password}).text()
       .then(() => setLocation("/"))
   });

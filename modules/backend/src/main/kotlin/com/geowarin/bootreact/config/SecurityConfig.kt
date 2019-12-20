@@ -32,6 +32,8 @@ class SecurityConfig {
       ).and()
       // use web sessions to store/ retrieve auth
       .securityContextRepository(securityContextRepository())
+      // We handle logout
+      .logout().disable()
       .build()
   }
 

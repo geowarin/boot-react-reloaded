@@ -1,5 +1,32 @@
+
 html {
-    font-family: Verdana, Geneva, sans-serif;
+    height: 100%;
+}
+
+#root {
+}
+
+.app-container {
+    width: 1024px;
+    margin: auto;
+    height: 80vh;
+    border: 1px solid #ccc;
+}
+
+.app-content {
+    margin: 20px;
+}
+
+.pure-menu {
+    background-color: #bbf;
+}
+
+.pure-menu-link {
+    color: white;
+
+    &:hover {
+        background-color: #aaf;
+    }
 }
 
 .form-container {
@@ -12,6 +39,9 @@ form {
     flex-direction: column;
 }
 
+form.error {
+    animation: 0.4s shake
+}
 
 @keyframes shake {
     10%, 90% {

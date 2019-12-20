@@ -3,11 +3,13 @@ package com.geowarin.bootreact.api
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.server.context.ServerSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
@@ -17,32 +19,52 @@ data class Credentials(
 )
 
 @Component
+class SessionCreator(
+  val securityContextRepository: ServerSecurityContextRepository
+) {
+  fun saveAuthentication(serverRequest: ServerRequest, authentication: Authentication) {
+    val context = SecurityContextHolder.getContext()
+    context.authentication = authentication
+    securityContextRepository.save(serverRequest.exchange(), context)
+  }
+}
+
+@Component
 class AuthHandlers(
   val authenticationManager: ReactiveAuthenticationManager,
   val securityContextRepository: ServerSecurityContextRepository
 ) {
   fun auth(serverRequest: ServerRequest): Mono<ServerResponse> {
     return serverRequest.bodyToMono<Credentials>()
-      .flatMap { creds ->
-        val token = UsernamePasswordAuthenticationToken(
-          creds.userName,
-          creds.password
-        )
-        authenticationManager.authenticate(token)
-      }
+      .map { UsernamePasswordAuthenticationToken(it.userName, it.password) }
+      .flatMap { authenticationManager.authenticate(it) }
       .map { auth ->
         serverRequest.session()
           .map { it.save() }
           .`as` { auth }
       }
       .flatMap { authentication ->
-        val context = SecurityContextHolder.getContext()
-        context.authentication = authentication
-        securityContextRepository.save(serverRequest.exchange(), context)
+        saveAuthentication(serverRequest, authentication)
       }
-      .flatMap { ServerResponse.ok().bodyValue("Auth success") }
+      .flatMap { ok().bodyValue("Auth success") }
       .onErrorResume {
-        ServerResponse.status(HttpStatus.UNAUTHORIZED).bodyValue(it.message ?: "Unauthorized")
+        unauthorized().bodyValue(it.message ?: "Unauthorized")
       }
   }
+
+  private fun saveAuthentication(
+    serverRequest: ServerRequest,
+    authentication: Authentication
+  ): Mono<Void> {
+    val context = SecurityContextHolder.getContext()
+    context.authentication = authentication
+    return securityContextRepository.save(serverRequest.exchange(), context)
+  }
+
+  fun logout(serverRequest: ServerRequest): Mono<ServerResponse> {
+    return securityContextRepository.save(serverRequest.exchange(), null)
+      .flatMap { ok().bodyValue("ok") }
+  }
 }
+
+fun unauthorized() = ServerResponse.status(HttpStatus.UNAUTHORIZED)
