@@ -28,10 +28,9 @@ class SecurityConfig {
       .and().csrf().disable()
       // Disable HttpBasicServerAuthenticationEntryPoint which appends the WWW-Authenticate header
       .exceptionHandling()
-      .authenticationEntryPoint(
-        HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)
-      ).and()
-      // use web sessions to store/ retrieve auth
+      .authenticationEntryPoint(HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED))
+      .and()
+      // use web sessions to store and retrieve auth
       .securityContextRepository(securityContextRepository())
       // We handle logout
       .logout().disable()
@@ -39,14 +38,11 @@ class SecurityConfig {
   }
 
   @Bean
-  fun securityContextRepository() =
-    WebSessionServerSecurityContextRepository()
+  fun securityContextRepository() = WebSessionServerSecurityContextRepository()
 
   @Bean
   fun authManager(userDetailsService: ReactiveUserDetailsService): ReactiveAuthenticationManager =
-    UserDetailsRepositoryReactiveAuthenticationManager(
-      userDetailsService
-    )
+    UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService)
 
   @Bean
   fun userDetailsService(): ReactiveUserDetailsService =
