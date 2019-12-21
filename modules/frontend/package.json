@@ -8,7 +8,8 @@
     "watch": "parcel watch src/index.html",
     "proxy": "node dev-server.js",
     "check-dependencies": "check-dependencies",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

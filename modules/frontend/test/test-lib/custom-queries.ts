@@ -9,6 +9,7 @@ const getMultipleError = (c: HTMLElement, name: Matcher) =>
 const getMissingError = (c: HTMLElement, name: Matcher) =>
   `Unable to find an element with the name: ${name}`;
 
+// noinspection JSUnusedGlobalSymbols
 const [
   queryByName,
   getAllByName,

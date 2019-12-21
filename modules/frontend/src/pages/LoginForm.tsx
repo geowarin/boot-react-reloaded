@@ -20,6 +20,7 @@ const LoginForm: React.FC<Props> = () => {
     api.url("/api/auth")
       .post({userName, password}).text()
       .then(() => setLocation("/"))
+      .catch(() => {});
   });
 
   const hasFieldErrors = !!Object.keys(errors).length;

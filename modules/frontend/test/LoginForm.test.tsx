@@ -21,7 +21,8 @@ describe("LoginForm", () => {
   });
 
   test("displays error message if login is unsucessful", async () => {
-    global.fetch.mockRejectOnce(Error(""));
+    global.fetch.mockResponseOnce("Unauthorized", {status: 401});
+    const pushStateSpy = jest.spyOn(history, 'pushState');
 
     const {getByName, getByRole} = render(<LoginForm/>);
 
@@ -31,7 +32,7 @@ describe("LoginForm", () => {
     userEvent.click(getByRole("button"));
 
     await waitForExpect(() => {
-      // expect(pushStateSpy).toHaveBeenCalledWith(expect.anything(), expect.anything(), "/");
+      expect(pushStateSpy).toHaveBeenCalledWith(expect.anything(), expect.anything(), "/login?error");
     });
   });
 });

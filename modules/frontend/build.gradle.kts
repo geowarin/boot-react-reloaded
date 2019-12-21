@@ -1,4 +1,3 @@
-import com.moowork.gradle.node.npm.NpmInstallTask
 import com.moowork.gradle.node.npm.NpmTask
 
 plugins {
@@ -9,7 +8,7 @@ plugins {
 buildDir = file("dist")
 
 node {
-  version = "10.16.3"
+  version = "13.3.0"
   download = true
 }
 
