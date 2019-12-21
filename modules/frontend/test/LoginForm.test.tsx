@@ -4,9 +4,10 @@ import '@testing-library/jest-dom/extend-expect';
 import 'jest-fetch-mock';
 
 import * as React from 'react';
-import {fireEvent, queryByAttribute, render} from '@testing-library/react';
+import {queryByAttribute, render} from '@testing-library/react';
 import LoginForm from '../src/pages/LoginForm';
 import {Matcher} from "@testing-library/dom/matches";
+import userEvent from "@testing-library/user-event";
 
 const waitForExpect = require("wait-for-expect");
 
@@ -29,20 +30,16 @@ function queryByType(container: HTMLElement, id: Matcher) {
 test('allows the user to login successfully', async () => {
 
   global.fetch.mockResponseOnce("OK");
-  const spy = jest.spyOn(history, 'pushState');
+  const pushStateSpy = jest.spyOn(history, 'pushState');
 
   const {container} = render(<LoginForm/>);
 
-  fireEvent.change(queryByName(container, /username/i), {
-    target: {value: 'chuck'},
-  });
-  fireEvent.change(queryByName(container, /password/i), {
-    target: {value: 'norris'},
-  });
+  await userEvent.type(queryByName(container, /username/i), "chuck");
+  await userEvent.type(queryByName(container, /password/i), "norris");
 
-  fireEvent.click(queryByType(container, /submit/i));
+  userEvent.click(queryByType(container, /submit/i));
 
   await waitForExpect(() => {
-    expect(spy).toHaveBeenCalled();
+    expect(pushStateSpy).toHaveBeenCalledWith(expect.anything(), expect.anything(), "/");
   });
 });
