@@ -1,12 +1,21 @@
-import wretch from "wretch";
+import wretch, {Wretcher} from "wretch";
+import {useAsync} from "react-async-hook";
 
-const api = wretch()
-// @ts-ignore
-  .url(process.env.BACKEND_URL)
+const baseUrl = wretch()
+  // @ts-ignore
+  .url(process.env.BACKEND_URL);
+
+const api = baseUrl
   .options({credentials: "include"})
   .catcher(401, e => {
     history.pushState({message: e.message}, "", `/login?error`);
     return Promise.reject(e.message);
   });
 
-export {api}
+function apiRequest<T>(p: (api: Wretcher) => Promise<T>) {
+  return useAsync<T>(async () => {
+    return p(api);
+  }, []);
+}
+
+export {api, apiRequest}

@@ -3,8 +3,7 @@ import {render} from "react-dom";
 import {Link, Redirect, Route, Switch} from "wouter";
 import MainPage from "./pages/MainPage";
 import LoginForm from "./pages/LoginForm";
-import {api} from "./api";
-import {useAsync} from "react-async-hook";
+import {apiRequest} from "./api";
 
 const menuItems = [
   {label: 'Home', link: '/'},
@@ -41,9 +40,7 @@ const RouteLayout: React.FC<{ path: string }> = ({path, children}) => {
 };
 
 const Logout: React.FC = () => {
-  const {loading, error} = useAsync(async () => {
-    return api.url("/api/auth").delete();
-  },[]);
+  const {loading, error} = apiRequest(api => api.url("/api/auth").delete());
   if (loading) {
     return <h2>Login out...</h2>
   }

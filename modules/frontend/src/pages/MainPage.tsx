@@ -1,11 +1,8 @@
 import * as React from "react";
-import {api} from "../api";
-import {useAsync} from "react-async-hook";
+import {apiRequest} from "../api";
 
 const MainPage = () => {
-  const state = useAsync<{ message: string }>(async () => {
-    return api.url("/api/whatever").get().json();
-  }, []);
+  const state = apiRequest<{ message: string }>(api => api.url("/api/whatever").get().json());
 
   if (state.loading) return <div>loading...</div>;
   if (state.error) return <div>failed to load</div>;
