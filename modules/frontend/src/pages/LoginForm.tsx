@@ -12,9 +12,9 @@ interface FormData {
   password: string
 }
 
-const LoginForm: React.FC<Props> = (props) => {
+const LoginForm: React.FC<Props> = () => {
   const {register, handleSubmit, errors} = useForm<FormData>();
-  const [_, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const onSubmit = handleSubmit(({userName, password}) => {
     api.url("/api/auth")
