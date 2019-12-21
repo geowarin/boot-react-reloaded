@@ -2,8 +2,7 @@ import wretch, {Wretcher} from "wretch";
 import {useAsync} from "react-async-hook";
 
 const baseUrl = wretch()
-  // @ts-ignore
-  .url(process.env.BACKEND_URL);
+  .url(process.env.BACKEND_URL ?? "");
 
 const api = baseUrl
   .options({credentials: "include"})
