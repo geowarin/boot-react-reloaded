@@ -40,7 +40,7 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-
+	testImplementation("io.projectreactor:reactor-tools")
 }
 
 tasks.withType<Test> {

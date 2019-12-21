@@ -23,6 +23,7 @@ class SecurityConfig {
   fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
     return http.authorizeExchange()
       .pathMatchers("/api/auth").permitAll()
+      .pathMatchers("/test/**").permitAll()
       .pathMatchers("/api/**").authenticated()
       .and().csrf().disable()
       // Disable HttpBasicServerAuthenticationEntryPoint which appends the WWW-Authenticate header

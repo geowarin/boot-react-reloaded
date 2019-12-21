@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyToMono
+import org.springframework.web.server.WebSession
 import reactor.core.publisher.Mono
 
 data class Credentials(
@@ -19,10 +20,19 @@ data class Credentials(
 )
 
 @Component
-class SessionCreator(
+class AuthService(
+  val authenticationManager: ReactiveAuthenticationManager,
   val securityContextRepository: ServerSecurityContextRepository
 ) {
-  fun saveAuthentication(serverRequest: ServerRequest, authentication: Authentication): Mono<Void> {
+
+  fun authenticate(credentials: Credentials, serverRequest: ServerRequest): Mono<WebSession> {
+    val token = UsernamePasswordAuthenticationToken(credentials.userName, credentials.password)
+    return authenticationManager.authenticate(token)
+      .flatMap { saveAuthentication(serverRequest, it) }
+      .then(serverRequest.session())
+  }
+
+  private fun saveAuthentication(serverRequest: ServerRequest, authentication: Authentication): Mono<Void> {
     val context = SecurityContextHolder.getContext()
     context.authentication = authentication
     return securityContextRepository.save(serverRequest.exchange(), context)
@@ -33,27 +43,22 @@ class SessionCreator(
   }
 }
 
+data class AuthResponse(
+  val sessionId: String
+)
+
 @Component
-class AuthHandlers(
-  val authenticationManager: ReactiveAuthenticationManager,
-  val sessionCreator: SessionCreator
-) {
-  fun auth(serverRequest: ServerRequest): Mono<ServerResponse> {
+class AuthHandlers(val authService: AuthService) {
+
+  fun login(serverRequest: ServerRequest): Mono<ServerResponse> {
     return serverRequest.bodyToMono<Credentials>()
-      .map { UsernamePasswordAuthenticationToken(it.userName, it.password) }
-      .flatMap { authenticationManager.authenticate(it) }
-      .map { auth ->
-        serverRequest.session()
-          .map { it.save() }
-          .`as` { auth }
-      }
-      .flatMap { sessionCreator.saveAuthentication(serverRequest, it) }
-      .flatMap { ok().bodyValue("Auth success") }
+      .flatMap { authService.authenticate(it, serverRequest) }
+      .flatMap { ok().bodyValue(AuthResponse(it.id)) }
       .onErrorResume { unauthorized().bodyValue(it.message ?: "Unauthorized") }
   }
 
   fun logout(serverRequest: ServerRequest): Mono<ServerResponse> {
-    return sessionCreator.logout(serverRequest)
+    return authService.logout(serverRequest)
       .flatMap { ok().bodyValue("ok") }
   }
 }

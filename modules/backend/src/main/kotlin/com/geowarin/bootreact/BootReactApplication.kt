@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
   if (!isRestart()) {
     startFrontend()
   }
-  Hooks.onOperatorDebug()
+//  Hooks.onOperatorDebug()
   runApplication<BootReactApplication>(*args)
 }
 

@@ -27,6 +27,10 @@ tasks.register<NpmTask>("assemble") {
   setArgs(listOf("run", "build"))
 }
 
+tasks.register<Delete>("clean") {
+  delete("dist", ".cache")
+}
+
 idea {
   module {
     excludeDirs = setOf(file(".cache"))
