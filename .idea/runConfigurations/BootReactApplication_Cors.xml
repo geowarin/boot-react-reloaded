@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BootReactApplication Cors" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="boot-react.modules.backend.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.geowarin.bootreact.BootReactApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <additionalParameters>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="com.geowarin.cors.allowedOrigin" />
+        <option name="value" value="http://localhost:1234" />
+      </param>
+    </additionalParameters>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

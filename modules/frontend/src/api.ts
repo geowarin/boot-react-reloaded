@@ -1,7 +1,8 @@
 import wretch from "wretch";
 
 const api = wretch()
-  .url("http://localhost:8080")
+// @ts-ignore
+  .url(process.env.BACKEND_URL)
   .options({credentials: "include"})
   .catcher(401, e => {
     history.pushState({message: e.message}, "", `/login?error`);
