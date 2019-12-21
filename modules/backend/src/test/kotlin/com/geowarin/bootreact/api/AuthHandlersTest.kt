@@ -33,7 +33,6 @@ internal class AuthHandlersTest {
     val serverResponse = auth.block() ?: throw IllegalStateException()
 
     assertEquals(HttpStatus.OK, serverResponse.statusCode())
-    assertEquals(HttpStatus.OK, serverResponse.statusCode())
 
 //    StepVerifier.create(auth)
 //      .expectNextMatches { it.statusCode() == HttpStatus.OK }
