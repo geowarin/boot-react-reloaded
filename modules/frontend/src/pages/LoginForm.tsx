@@ -42,7 +42,7 @@ const LoginForm: React.FC<Props> = (props) => {
         <div className="error">{errors.password?.message}</div>
 
         <div className="error">{globalError}</div>
-        <input type="submit"/>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
