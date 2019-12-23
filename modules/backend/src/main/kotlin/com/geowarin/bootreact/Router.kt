@@ -5,7 +5,6 @@ import com.geowarin.bootreact.api.AuthHandlers
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.router
-import reactor.core.publisher.Mono
 
 
 @Configuration
@@ -20,10 +19,6 @@ class Router(
       POST("/auth", authHandlers::login)
       DELETE("/auth", authHandlers::logout)
       GET("/whatever", apiHandlers::whatever)
-    }
-    GET("/test") {
-      Mono.empty<Void>()
-        .flatMap { ok().bodyValue("toto") }
     }
   }
 }
