@@ -6,7 +6,7 @@ describe("LoginForm", () => {
 
   test("user is redirected after a successful login", async () => {
     global.fetch.mockResponseOnce("OK");
-    const pushStateSpy = jest.spyOn(history, 'pushState');
+    const pushStateSpy = jest.spyOn(window.history, 'pushState');
 
     const {getByName, getByRole} = render(<LoginForm/>);
 
@@ -22,7 +22,7 @@ describe("LoginForm", () => {
 
   test("displays error message if login is unsucessful", async () => {
     global.fetch.mockResponseOnce("Unauthorized", {status: 401});
-    const pushStateSpy = jest.spyOn(history, 'pushState');
+    const pushStateSpy = jest.spyOn(window.history, 'pushState');
 
     const {getByName, getByRole} = render(<LoginForm/>);
 

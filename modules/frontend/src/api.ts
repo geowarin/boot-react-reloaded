@@ -7,11 +7,12 @@ const baseUrl = wretch()
 const api = baseUrl
   .options({credentials: "include"})
   .catcher(401, e => {
-    history.pushState({message: e.message}, "", `/login?error`);
+    window.history.pushState({message: e.message}, "", `/login?error`);
     return Promise.reject(e.message);
   });
 
 function apiRequest<T>(p: (api: Wretcher) => Promise<T>) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useAsync<T>(async () => {
     return p(api);
   }, []);
