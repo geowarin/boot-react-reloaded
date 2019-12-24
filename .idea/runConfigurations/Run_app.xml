@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Cors" type="CompoundRunConfigurationType">
-    <toRun name="start" type="js.build_tools.npm" />
+  <configuration default="false" name="Run app" type="CompoundRunConfigurationType">
     <toRun name="BootReactApplication Cors" type="SpringBootApplicationConfigurationType" />
+    <toRun name="start" type="js.build_tools.npm" />
     <method v="2" />
   </configuration>
 </component>

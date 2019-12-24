@@ -1,6 +1,3 @@
-import '@testing-library/jest-dom/extend-expect';
-import 'jest-fetch-mock';
-
 import {queries, render, RenderOptions} from '@testing-library/react'
 import * as customQueries from './custom-queries'
 import * as React from "react";

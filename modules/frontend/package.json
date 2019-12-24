@@ -4,11 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "BACKEND_URL='http://localhost:8080' parcel src/index.html",
-    "watch": "parcel watch src/index.html",
-    "proxy": "node dev-server.js",
+    "start": "BACKEND_URL='http://localhost:8080' parcel src/index.html --cache-dir ../../.gradle/cache",
     "check-dependencies": "check-dependencies",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --cache-dir ../../.gradle/cache",
     "test": "jest",
     "lint": "eslint '**/*.ts?(x)'"
   },
@@ -63,5 +61,12 @@
     "plugins": {
       "postcss-nested": {}
     }
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "jest-environment-jsdom-fourteen",
+    "setupFilesAfterEnv": [
+      "<rootDir>/test/test-lib/setupTests.ts"
+    ]
   }
 }
