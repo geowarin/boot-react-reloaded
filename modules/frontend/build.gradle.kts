@@ -20,7 +20,7 @@ tasks.register<NpmTask>("check") {
   setArgs(listOf("test"))
 }
 
-tasks.register<NpmTask>("assemble") {
+tasks.register<NpmTask>("build") {
   inputs.dir("src")
   outputs.dir("dist")
   setArgs(listOf("run", "build"))
@@ -36,4 +36,4 @@ idea {
   }
 }
 
-tasks.getByName("assemble").dependsOn += tasks.getByName("npmInstall")
+tasks.getByName("build").dependsOn += tasks.getByName("npmInstall")
