@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "BACKEND_URL='http://localhost:8080' parcel src/index.html --cache-dir ../../.gradle/cache",
+    "start": "BACKEND_URL='http://localhost:8080' parcel src/index.html",
     "check-dependencies": "check-dependencies",
-    "build": "parcel build src/index.html --cache-dir ../../.gradle/cache",
+    "build": "parcel build src/index.html",
     "test": "jest",
     "lint": "eslint '**/*.ts?(x)'"
   },

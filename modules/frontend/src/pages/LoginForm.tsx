@@ -14,13 +14,14 @@ interface FormData {
 
 const LoginForm: React.FC<Props> = () => {
   const {register, handleSubmit, errors} = useForm<FormData>();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
   const onSubmit = handleSubmit(({userName, password}) => {
     api.url("/api/auth")
       .post({userName, password}).text()
       .then(() => setLocation("/"))
-      .catch(() => {});
+      .catch(() => {
+      });
   });
 
   const hasFieldErrors = !!Object.keys(errors).length;

@@ -3,3 +3,4 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 modules/frontend/dist/
 modules/frontend/node_modules/
+modules/frontend/.cache/

@@ -4,6 +4,9 @@ import com.geowarin.bootreact.config.CorsProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Configuration
+import org.springframework.data.redis.connection.RedisConnectionFactory
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 
 
 @SpringBootApplication
@@ -15,3 +18,16 @@ fun main(args: Array<String>) {
   runApplication<BootReactApplication>(*args)
 }
 
+@Configuration
+class RedisConfig {
+  fun redisConnectionFactory(): RedisConnectionFactory = LettuceConnectionFactory()
+}
+
+//@Configuration
+//@EnableSpringWebSession
+//class SessionConfig {
+//  @Bean
+//  fun reactiveSessionRepository(): ReactiveSessionRepository<*> {
+//    return ReactiveMapSessionRepository(ConcurrentHashMap())
+//  }
+//}
