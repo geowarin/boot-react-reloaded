@@ -1,6 +1,7 @@
 import * as React from 'react';
 import LoginForm from '../src/pages/LoginForm';
 import {render, userEvent, waitForExpect} from "./test-lib/test-utils";
+import {act} from "react-dom/test-utils";
 
 describe("LoginForm", () => {
 
@@ -10,10 +11,12 @@ describe("LoginForm", () => {
 
     const {getByName, getByRole} = render(<LoginForm/>);
 
-    await userEvent.type(getByName(/username/i), "chuck");
-    await userEvent.type(getByName(/password/i), "norris");
+    await act(async() => {
+      await userEvent.type(getByName(/username/i), "chuck");
+      await userEvent.type(getByName(/password/i), "norris");
 
-    userEvent.click(getByRole("button"));
+      userEvent.click(getByRole("button"));
+    });
 
     await waitForExpect(() => {
       expect(pushStateSpy).toHaveBeenCalledWith(expect.anything(), expect.anything(), "/");
@@ -26,10 +29,12 @@ describe("LoginForm", () => {
 
     const {getByName, getByRole} = render(<LoginForm/>);
 
-    await userEvent.type(getByName(/username/i), "chuck");
-    await userEvent.type(getByName(/password/i), "norris");
+    await act(async() => {
+      await userEvent.type(getByName(/username/i), "chuck");
+      await userEvent.type(getByName(/password/i), "norris");
 
-    userEvent.click(getByRole("button"));
+      userEvent.click(getByRole("button"));
+    });
 
     await waitForExpect(() => {
       expect(pushStateSpy).toHaveBeenCalledWith(expect.anything(), expect.anything(), "/login?error");
