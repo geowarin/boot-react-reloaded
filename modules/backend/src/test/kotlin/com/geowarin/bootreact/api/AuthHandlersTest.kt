@@ -1,5 +1,6 @@
 package com.geowarin.bootreact.api
 
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest
@@ -29,13 +30,9 @@ internal class AuthHandlersTest {
       .session(session)
       .body(Mono.just(Credentials("user", "pass")))
 
-    val auth = AuthHandlers(authService).login(serverRequest)
-    val serverResponse = auth.block() ?: throw IllegalStateException()
-
-    assertEquals(HttpStatus.OK, serverResponse.statusCode())
-
-//    StepVerifier.create(auth)
-//      .expectNextMatches { it.statusCode() == HttpStatus.OK }
-//      .verifyComplete()
+    runBlocking {
+      val serverResponse = AuthHandlers(authService).login(serverRequest)
+      assertEquals(HttpStatus.OK, serverResponse.statusCode())
+    }
   }
 }
